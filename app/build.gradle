@@ -34,6 +34,7 @@ dependencies {
     ext.butterknifeVersion = '8.4.0'
     ext.timberVersion = '4.3.1'
     ext.materialDesignDialogVersion = '0.9.0.2'
+    ext.jsoupVersion = '1.10.1'
 
     compile "com.android.support:appcompat-v7:$appCompatVersion"
     compile "com.jakewharton:butterknife:$butterknifeVersion"
@@ -44,5 +45,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$appCompatVersion"
     compile "com.android.support:support-v4:$appCompatVersion"
     compile "com.android.support:design:$appCompatVersion"
+    compile "org.jsoup:jsoup:$jsoupVersion"
+
     testCompile 'junit:junit:4.12'
 }
