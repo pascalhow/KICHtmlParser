@@ -1,4 +1,4 @@
-package com.pascalhow.baseapp;
+package com.pascalhow.htmlparsingexampleapp;
 
 import org.junit.Test;
 

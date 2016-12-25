@@ -1,4 +1,4 @@
-package com.pascalhow.baseapp;
+package com.pascalhow.htmlparsingexampleapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

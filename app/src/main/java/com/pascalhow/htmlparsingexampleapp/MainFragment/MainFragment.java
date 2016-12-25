@@ -1,4 +1,5 @@
-package com.pascalhow.baseapp.NewFragment;
+package com.pascalhow.htmlparsingexampleapp.MainFragment;
+
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,29 +10,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pascalhow.baseapp.MainActivity;
-import com.pascalhow.baseapp.R;
+import com.pascalhow.htmlparsingexampleapp.MainActivity;
+import com.pascalhow.htmlparsingexampleapp.R;
 
 import butterknife.ButterKnife;
 
 /**
  * Created by pascal on 25/12/2016.
  */
-
-public class NewFragment extends Fragment {
+public class MainFragment extends Fragment {
 
     private MainActivity mainActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_new, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         ButterKnife.bind(this, rootView);
 
         mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.new_fragment_title);
-        mainActivity.hideFloatingActionButton();
+        mainActivity.setTitle(R.string.main_fragment_title);
+        mainActivity.showFloatingActionButton();
 
         setHasOptionsMenu(true);
 
@@ -41,7 +41,7 @@ public class NewFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_settings);
-        item.setVisible(true);
+        item.setVisible(false);
     }
 
     @Override

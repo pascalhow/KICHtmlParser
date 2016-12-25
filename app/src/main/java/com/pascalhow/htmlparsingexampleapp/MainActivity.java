@@ -1,4 +1,4 @@
-package com.pascalhow.baseapp;
+package com.pascalhow.htmlparsingexampleapp;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.pascalhow.baseapp.MainFragment.MainFragment;
-import com.pascalhow.baseapp.NewFragment.NewFragment;
+import com.pascalhow.htmlparsingexampleapp.MainFragment.MainFragment;
+import com.pascalhow.htmlparsingexampleapp.NewFragment.NewFragment;
 
 public class MainActivity extends AppCompatActivity {
 
