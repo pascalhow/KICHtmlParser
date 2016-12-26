@@ -35,13 +35,15 @@ dependencies {
     ext.timberVersion = '4.3.1'
     ext.materialDesignDialogVersion = '0.9.0.2'
     ext.jsoupVersion = '1.10.1'
+    ext.rxJavaVersion = '2.0.3'
 
     compile "com.android.support:appcompat-v7:$appCompatVersion"
     compile "com.jakewharton:butterknife:$butterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
     compile "com.android.support:recyclerview-v7:$appCompatVersion"
     compile "com.jakewharton.timber:timber:$timberVersion"
     compile "com.afollestad.material-dialogs:core:$materialDesignDialogVersion"
-    compile 'io.reactivex.rxjava2:rxjava:2.0.3'
+    compile "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     compile "com.android.support:recyclerview-v7:$appCompatVersion"
     compile "com.android.support:support-v4:$appCompatVersion"
     compile "com.android.support:design:$appCompatVersion"

@@ -1,11 +1,11 @@
 package com.pascalhow.htmlparsingexampleapp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         String fragClassName = fragment.getClass().getName();
 
         if (fragClassName.equals(MainFragment.class.getName())) {
-            setTitle(getResources().getString(R.string.main_fragment_title));
+            setTitle(getResources().getString(R.string.course_fragment_title));
             showFloatingActionButton();
         } else if (fragClassName.equals(NewFragment.class.getName())) {
-            setTitle(getResources().getString(R.string.new_fragment_title));
+            setTitle(getResources().getString(R.string.unit_fragment_title));
         }
     }
 

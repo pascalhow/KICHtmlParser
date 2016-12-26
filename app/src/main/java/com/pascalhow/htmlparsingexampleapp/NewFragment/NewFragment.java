@@ -30,7 +30,7 @@ public class NewFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.new_fragment_title);
+        mainActivity.setTitle(R.string.unit_fragment_title);
         mainActivity.hideFloatingActionButton();
 
         setHasOptionsMenu(true);

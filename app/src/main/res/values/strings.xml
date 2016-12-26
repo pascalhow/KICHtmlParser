@@ -3,9 +3,17 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="main_fragment_title">Main Fragment</string>
-    <string name="new_fragment_title">New Fragment</string>
+    <string name="course_fragment_title">Course Fragment</string>
+    <string name="unit_fragment_title">Unit Fragment</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Course Screen -->
+    <string name="course_screen_course_list">Course List</string>
+    <string name="course_screen_load_button_text">Load</string>
+    <string name="course_screen_main_content_text">Here is the course list</string>
+
+    <!-- Unit Screen -->
     <string name="hello_new_fragment">Hello new fragment</string>
+
+    <!-- Criteria Screen -->
+    <string name="hello_criteria_fragment">Hello criteria fragment</string>
 </resources>
