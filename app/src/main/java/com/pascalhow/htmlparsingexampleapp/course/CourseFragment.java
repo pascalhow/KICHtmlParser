@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
@@ -24,6 +24,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by pascal on 25/12/2016.
@@ -37,6 +41,7 @@ public class CourseFragment extends Fragment {
     private CourseItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
+    private static final String TAG = "CourseFragment";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,66 +67,62 @@ public class CourseFragment extends Fragment {
 
     @OnClick(R2.id.load_course_btn)
     public void onLoadButtonClick() {
+        loadDummyCourse();
+    }
 
-        ArrayList<Course> courselist = new ArrayList<>();
+    private void loadDummyCourse() {
 
-        courselist.add(new Course.Builder().setCode("001")
-                .setTitle("Course 1")
-                .build());
+        sampleObservable().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(sampleSubscriber());
+    }
 
-        courselist.add(new Course.Builder().setCode("002")
-                .setTitle("Course 2")
-                .build());
+    public Observable<ArrayList<Course>> sampleObservable() {
 
-        courselist.add(new Course.Builder().setCode("003")
-                .setTitle("Course 3")
-                .build());
 
-        courselist.add(new Course.Builder().setCode("004")
-                .setTitle("Course 4")
-                .build());
+        return Observable.create(
+                new Observable.OnSubscribe<ArrayList<Course>>() {
+                    @Override
+                    public void call(Subscriber<? super ArrayList<Course>> sub) {
+                        ArrayList<Course> courseList = new ArrayList<>();
 
-        courselist.add(new Course.Builder().setCode("005")
-                .setTitle("Course 5")
-                .build());
+                        for (int i = 0; i < 20; i++) {
+                            courseList.add(new Course.Builder().setCode(String.valueOf(i))
+                                    .setTitle("Course " + String.valueOf(i))
+                                    .build());
+                        }
 
-        courselist.add(new Course.Builder().setCode("006")
-                .setTitle("Course 6")
-                .build());
+                        sub.onNext(courseList);
+                        sub.onCompleted();
+                    }
+                }
+        );
+    }
 
-        courselist.add(new Course.Builder().setCode("007")
-                .setTitle("Course 7")
-                .build());
+    public Subscriber<ArrayList<Course>> sampleSubscriber() {
+        return new Subscriber<ArrayList<Course>>() {
 
-        courselist.add(new Course.Builder().setCode("008")
-                .setTitle("Course 8")
-                .build());
+            @Override
+            public void onCompleted() {
+                Log.d(TAG, "onCompleted");
+            }
 
-        courselist.add(new Course.Builder().setCode("009")
-                .setTitle("Course 9")
-                .build());
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "onError");
+            }
 
-        courselist.add(new Course.Builder().setCode("010")
-                .setTitle("Course 10")
-                .build());
+            @Override
+            public void onNext(ArrayList<Course> courseList) {
+                Log.d(TAG, "onNext");
 
-        courselist.add(new Course.Builder().setCode("011")
-                .setTitle("Course 11")
-                .build());
-
-        courselist.add(new Course.Builder().setCode("012")
-                .setTitle("Course 12")
-                .build());
-
-        courselist.add(new Course.Builder().setCode("013")
-                .setTitle("Course 13")
-                .build());
-
-        courselist.add(new Course.Builder().setCode("014")
-                .setTitle("Course 14")
-                .build());
-
-        mAdapter.setItemList(courselist);
+                for(int i = 0; i< courseList.size(); i++) {
+                    Log.d(TAG, courseList.get(i).getCode());
+                    Log.d(TAG, courseList.get(i).getTitle());
+                }
+                mAdapter.setItemList(courseList);
+            }
+        };
     }
 
     @Override
