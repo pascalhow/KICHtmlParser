@@ -27,7 +27,8 @@
     <dimen name="image_vertical_margin">12dp</dimen>
 
     <!-- Course Screen -->
-    <dimen name="course_screen_content_text_size">@dimen/text_size_small</dimen>
+    <dimen name="course_screen_course_code_text_size">@dimen/text_size_small</dimen>
+    <dimen name="course_screen_course_title_text_size">@dimen/text_size_small</dimen>
 
     <!-- Units Screen -->
     <dimen name="unit_screen_content_text_size">@dimen/text_size_small</dimen>

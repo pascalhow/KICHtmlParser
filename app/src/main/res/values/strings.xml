@@ -5,11 +5,13 @@
 
     <string name="course_fragment_title">Course Fragment</string>
     <string name="unit_fragment_title">Unit Fragment</string>
+    <string name="criteria_fragment_title">Criteria Fragment</string>
 
     <!-- Course Screen -->
     <string name="course_screen_course_list">Course List</string>
     <string name="course_screen_load_button_text">Load</string>
-    <string name="course_screen_main_content_text">Here is the course list</string>
+    <string name="course_screen_course_item_code">Course Code</string>
+    <string name="course_screen_course_item_title">Course Title</string>
 
     <!-- Unit Screen -->
     <string name="hello_new_fragment">Hello new fragment</string>
