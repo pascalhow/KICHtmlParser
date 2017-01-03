@@ -17,7 +17,10 @@ import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.R2;
 import com.pascalhow.htmlparsingexampleapp.adapter.CourseItemAdapter;
+import com.pascalhow.htmlparsingexampleapp.classes.HtmlParserManager;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
+import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
+import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -79,11 +82,13 @@ public class CourseFragment extends Fragment {
 
     public Observable<ArrayList<Course>> sampleObservable() {
 
-
         return Observable.create(
                 new Observable.OnSubscribe<ArrayList<Course>>() {
                     @Override
                     public void call(Subscriber<? super ArrayList<Course>> sub) {
+
+                        loadCriteria();
+
                         ArrayList<Course> courseList = new ArrayList<>();
 
                         for (int i = 0; i < 20; i++) {
@@ -116,13 +121,25 @@ public class CourseFragment extends Fragment {
             public void onNext(ArrayList<Course> courseList) {
                 Log.d(TAG, "onNext");
 
-                for(int i = 0; i< courseList.size(); i++) {
-                    Log.d(TAG, courseList.get(i).getCode());
-                    Log.d(TAG, courseList.get(i).getTitle());
-                }
                 mAdapter.setItemList(courseList);
             }
         };
+    }
+
+    public void loadCriteria() {
+        String url = Constants.COURSE_URL;
+        // Scan first page to get qualifications
+        ArrayList<Course> qualificationList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
+
+        for(Course course : qualificationList) {
+            // iterate through list to get the second pages,which list the units
+            ArrayList<Course> unitList = HtmlParserManager.scanPageForCourses(course.getLink(),"#tableUnits");
+            for(Course unit : unitList) {
+                // The last page where it dispalys the performance and criteria pages
+                ArrayList<PerformanceCriteria> criterasList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
+                Log.d(TAG, criterasList.toString());
+            }
+        }
     }
 
     @Override
