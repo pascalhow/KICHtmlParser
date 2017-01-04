@@ -20,6 +20,7 @@ import com.pascalhow.htmlparsingexampleapp.adapter.CourseItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.HtmlParserManager;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
+import com.pascalhow.htmlparsingexampleapp.model.Unit;
 import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
 import java.util.ArrayList;
@@ -64,6 +65,8 @@ public class CourseFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         setHasOptionsMenu(true);
+
+        loadDummyCourse();
 
         return rootView;
     }
@@ -129,15 +132,15 @@ public class CourseFragment extends Fragment {
     public void loadCriteria() {
         String url = Constants.COURSE_URL;
         // Scan first page to get qualifications
-        ArrayList<Course> qualificationList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
+        ArrayList<Course> courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
 
-        for(Course course : qualificationList) {
+        for(Course course : courseList) {
             // iterate through list to get the second pages,which list the units
-            ArrayList<Course> unitList = HtmlParserManager.scanPageForCourses(course.getLink(),"#tableUnits");
-            for(Course unit : unitList) {
-                // The last page where it dispalys the performance and criteria pages
-                ArrayList<PerformanceCriteria> criterasList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
-                Log.d(TAG, criterasList.toString());
+            ArrayList<Unit> unitList = HtmlParserManager.scanPageForUnits(course.getLink(),"#tableUnits");
+            for(Unit unit : unitList) {
+                // The last page where it displays the performance and criteria pages
+                ArrayList<PerformanceCriteria> criteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
+                Log.d(TAG, criteriaList.toString());
             }
         }
     }

@@ -17,6 +17,10 @@ public class Criteria {
     }
 
     public String getElement() {
-        return this.element.toString();
+        return this.element;
+    }
+
+    public ArrayList<String> getPerformances() {
+        return this.performances;
     }
 }

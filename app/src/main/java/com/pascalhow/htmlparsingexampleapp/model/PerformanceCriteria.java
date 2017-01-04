@@ -8,14 +8,14 @@ import java.util.ArrayList;
 
 public class PerformanceCriteria {
 
-    private final ArrayList<Criteria> criterias;
+    private final ArrayList<Criteria> criteria;
 
     public static class Builder {
 
-        private ArrayList<Criteria> criterias = new ArrayList<>();
+        private ArrayList<Criteria> criteria = new ArrayList<>();
 
-        public PerformanceCriteria.Builder addCriteria(Criteria criteria) {
-            this.criterias.add(criteria);
+        public Builder addCriteria(Criteria criteria) {
+            this.criteria.add(criteria);
             return this;
         }
 
@@ -24,17 +24,17 @@ public class PerformanceCriteria {
         }
     }
 
-    private PerformanceCriteria(PerformanceCriteria.Builder builder) {
-        this.criterias = builder.criterias;
+    private PerformanceCriteria(Builder builder) {
+        this.criteria = builder.criteria;
     }
 
     @Override
     public String toString() {
-        String unitsToString = "----- Performance criteria -----\n";
-        for (Criteria crit : criterias) {
-            unitsToString += crit.getElement();
-            unitsToString +=  "\n";
+        String performanceCriteriaToString = "----- Performance criteria -----\n";
+        for (Criteria crit : criteria) {
+            performanceCriteriaToString += crit.getElement();
+            performanceCriteriaToString +=  "\n";
         }
-        return unitsToString;
+        return performanceCriteriaToString;
     }
 }

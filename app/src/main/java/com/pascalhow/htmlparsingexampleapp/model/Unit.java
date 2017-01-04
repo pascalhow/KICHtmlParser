@@ -3,11 +3,10 @@ package com.pascalhow.htmlparsingexampleapp.model;
 import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
 /**
- * Created by pascal on 02/01/2017.
+ * Created by pascal on 04/01/2017.
  */
 
-public class Course {
-
+public class Unit {
     private final String code;
     private final String title;
     private final String link;
@@ -33,12 +32,12 @@ public class Course {
             return this;
         }
 
-        public Course build() {
-            return new Course(this);
+        public Unit build() {
+            return new Unit(this);
         }
     }
 
-    private Course(Builder builder) {
+    private Unit(Builder builder) {
         this.code = builder.code;
         this.title = builder.title;
         this.link = builder.link;
@@ -59,11 +58,11 @@ public class Course {
     }
     @Override
     public String toString() {
-        String courseToString = "----- Course -----\n";
-        courseToString += "Code: " + this.code + "\n";
-        courseToString += "Title: " + this.title + "\n";
-        courseToString += "Link: " + this.link + "\n";
+        String unitToString = "----- Unit -----\n";
+        unitToString += "Code: " + this.code + "\n";
+        unitToString += "Title: " + this.title + "\n";
+        unitToString += "Link: " + this.link + "\n";
 
-        return courseToString;
+        return unitToString;
     }
 }

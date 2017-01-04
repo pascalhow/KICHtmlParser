@@ -22,13 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/text_margin_vertical_small"
                 android:text="@string/course_screen_load_button_text" />
-
-            <ProgressBar
-                android:id="@+id/course_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:indeterminate="true" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

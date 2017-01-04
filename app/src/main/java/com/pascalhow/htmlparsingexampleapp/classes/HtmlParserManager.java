@@ -5,6 +5,8 @@ import android.util.Log;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.Criteria;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
+import com.pascalhow.htmlparsingexampleapp.model.Unit;
+import com.pascalhow.htmlparsingexampleapp.utils.StringHelper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 
 public class HtmlParserManager {
 
-    private static final String TAG = "htmp_parser_manager";
+    private static final String TAG = "html_parser_manager";
 
     public static ArrayList<Course> scanPageForCourses(String url, String table) {
         try {
@@ -31,18 +33,16 @@ public class HtmlParserManager {
             // only get from the resultant table, with ID resultsBodyQualification, and in the body element, ignore header and footer
             Elements paragraphs = doc.select(table + " tbody tr");
 
-            ArrayList<Course> courseList = buildCourseList(paragraphs);
-
-            return courseList;
+            return buildCourseList(paragraphs);
         }
         catch(IOException error) {
             // If it fails it would throw an error and return an empty array
             Log.d(TAG, "failed to scan page");
-            return new ArrayList<Course>();
+            return new ArrayList<>();
         }
     }
 
-    public static ArrayList<Course> buildCourseList(Elements rows) {
+    private static ArrayList<Course> buildCourseList(Elements rows) {
 
         ArrayList<Course> courseList = new ArrayList<>();
 
@@ -51,7 +51,7 @@ public class HtmlParserManager {
             Element firstCol = r.child(0);
             Element secondCol = r.child(1);
             String code = firstCol.child(0).ownText();
-            String link = firstCol.child(0).attr("href").toString();
+            String link = firstCol.child(0).attr("href");
             String title = secondCol.ownText();
 
             Course course = new Course.Builder()
@@ -62,10 +62,52 @@ public class HtmlParserManager {
 
             //  We now have both code and title for a given course so add to the list
             courseList.add(course);
-
         }
 
         return courseList;
+    }
+
+    public static ArrayList<Unit> scanPageForUnits(String url, String table) {
+        try {
+            Document doc = Jsoup.connect(url)
+                    .userAgent("Chrome")
+                    .get();
+
+            // only get from the resultant table, with ID resultsBodyQualification, and in the body element, ignore header and footer
+            Elements paragraphs = doc.select(table + " tbody tr");
+
+            return buildUnitList(paragraphs);
+        }
+        catch(IOException error) {
+            // If it fails it would throw an error and return an empty array
+            Log.d(TAG, "failed to scan page");
+            return new ArrayList<>();
+        }
+    }
+
+    private static ArrayList<Unit> buildUnitList(Elements rows) {
+
+        ArrayList<Unit> unitList = new ArrayList<>();
+
+        // Build the court list based on the tables
+        for (Element r : rows) {
+            Element firstCol = r.child(0);
+            Element secondCol = r.child(1);
+            String code = firstCol.child(0).ownText();
+            String link = firstCol.child(0).attr("href");
+            String title = secondCol.ownText();
+
+            Unit unit = new Unit.Builder()
+                    .setCode(code)
+                    .setTitle(title)
+                    .setLink(link)
+                    .build();
+
+            //  We now have both code and title for a given unit so add to the list
+            unitList.add(unit);
+        }
+
+        return unitList;
     }
 
     public static ArrayList<PerformanceCriteria> scanPageForPerformanceCriteria(String url) {
@@ -73,7 +115,6 @@ public class HtmlParserManager {
             Document doc = Jsoup.connect(url)
                     .userAgent("Chrome")
                     .get();
-
 
             Elements tables = doc.select(".ait-table tbody");
             ArrayList<PerformanceCriteria> criteriasList = new ArrayList<PerformanceCriteria>();
@@ -95,7 +136,7 @@ public class HtmlParserManager {
                     if(secondColString.equalsIgnoreCase("PERFORMANCECRITERIA")) {
                         criteriasList = buildPerformanceCriteriaList(table);
                     }
-
+                    break;
                 }
 
             }
@@ -106,20 +147,19 @@ public class HtmlParserManager {
         }
         catch(IOException error) {
             Log.d(TAG, "failed to scan page");
-            return new ArrayList<PerformanceCriteria>();
+            return new ArrayList<>();
         }
     }
 
-    public static ArrayList<PerformanceCriteria> buildPerformanceCriteriaList(Element table) {
+    private static ArrayList<PerformanceCriteria> buildPerformanceCriteriaList(Element table) {
 
         ArrayList<PerformanceCriteria> elementsCrtieriasList = new ArrayList<>();
 
         Elements rows = table.children();
         for (int i = 1; i < rows.size(); i ++) {
-            // get first column's text
-//            rows.get(i).child(0)
+
             Elements secondColumnArray = rows.get(i).child(1).children();
-            ArrayList<String> performances = new ArrayList<String>();
+            ArrayList<String> performances = new ArrayList<>();
             for (Element item: secondColumnArray) {
                 performances.add(item.text());
             }
@@ -129,12 +169,23 @@ public class HtmlParserManager {
                     .addCriteria(criteria)
                     .build();
 
-            System.out.print(criteria.toString());
-            //  We now have both code and title for a given course so add to the list
-            elementsCrtieriasList.add(performanceCriteria);
+            Log.d(TAG, criteria.toString());
+
+            if (isValidCriteria(criteria)){
+                elementsCrtieriasList.add(performanceCriteria);
+            }
         }
 
-
         return elementsCrtieriasList;
+    }
+
+    private static boolean isValidCriteria(Criteria criteria) {
+
+        if (!StringHelper.isNullOrEmpty(criteria.getElement()) || !StringHelper.isNullOrEmpty(criteria.getPerformances().get(0))) {
+            if (StringHelper.isInteger(criteria.getElement().substring(0, criteria.getElement().indexOf(".")))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
