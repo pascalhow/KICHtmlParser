@@ -26,9 +26,13 @@
     <dimen name="image_horizontal_margin">12dp</dimen>
     <dimen name="image_vertical_margin">12dp</dimen>
 
-    <!-- Main Screen -->
-    <dimen name="main_screen_title_text_size">@dimen/text_size_large</dimen>
+    <!-- Course Screen -->
+    <dimen name="course_screen_course_code_text_size">@dimen/text_size_small</dimen>
+    <dimen name="course_screen_course_title_text_size">@dimen/text_size_small</dimen>
 
-    <!-- New Screen -->
-    <dimen name="new_screen_title_text_size">@dimen/text_size_medium</dimen>
+    <!-- Units Screen -->
+    <dimen name="unit_screen_content_text_size">@dimen/text_size_small</dimen>
+
+    <!-- Criteria Screen -->
+    <dimen name="criteria_screen_content_text_size">@dimen/text_size_small</dimen>
 </resources>

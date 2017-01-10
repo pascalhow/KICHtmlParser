@@ -11,5 +11,5 @@
         android:layout_height="match_parent"
         android:text="@string/hello_new_fragment"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textSize="@dimen/new_screen_title_text_size" />
+        android:textSize="@dimen/unit_screen_content_text_size" />
 </LinearLayout>
