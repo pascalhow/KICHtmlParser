@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
@@ -23,8 +24,6 @@ public class CourseItemAdapter extends RecyclerView.Adapter<CourseItemAdapter.Vi
 
     private ArrayList<Course> courseList;
     private Context context;
-
-    private static final String FRAGMENT_UNIT = "unit";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -70,8 +69,8 @@ public class CourseItemAdapter extends RecyclerView.Adapter<CourseItemAdapter.Vi
         UnitFragment fragmentUnit = new UnitFragment();
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.base_fragment, fragmentUnit, FRAGMENT_UNIT)
-                .addToBackStack(FRAGMENT_UNIT)
+                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_UNIT)
+                .addToBackStack(MainActivity.FRAGMENT_UNIT)
                 .commitAllowingStateLoss();
     }
 

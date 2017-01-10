@@ -2,7 +2,6 @@ package com.pascalhow.htmlparsingexampleapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +14,9 @@ import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String FRAGMENT_COURSE = "course";
-    private static final String FRAGMENT_UNIT = "unit";
-    private static final String FRAGMENT_CRITERIA = "criteria";
+    public static final String FRAGMENT_COURSE = "course";
+    public static final String FRAGMENT_UNIT = "unit";
+    public static final String FRAGMENT_CRITERIA = "criteria";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
