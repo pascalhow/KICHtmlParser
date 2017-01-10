@@ -1,6 +1,8 @@
 package com.pascalhow.htmlparsingexampleapp.adapter;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
+import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,8 @@ public class CourseItemAdapter extends RecyclerView.Adapter<CourseItemAdapter.Vi
 
     private ArrayList<Course> courseList;
     private Context context;
+
+    private static final String FRAGMENT_UNIT = "unit";
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -57,6 +62,17 @@ public class CourseItemAdapter extends RecyclerView.Adapter<CourseItemAdapter.Vi
         final Course course = courseList.get(position);
         holder.course_item_code.setText(course.getCode());
         holder.course_item_title.setText(course.getTitle());
+
+        holder.itemView.setOnClickListener(v -> onSelectableClick(courseList.get(position)));
+    }
+
+    private void onSelectableClick(Course course) {
+        UnitFragment fragmentUnit = new UnitFragment();
+        FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .add(R.id.base_fragment, fragmentUnit, FRAGMENT_UNIT)
+                .addToBackStack(FRAGMENT_UNIT)
+                .commitAllowingStateLoss();
     }
 
     @Override

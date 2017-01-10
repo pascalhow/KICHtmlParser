@@ -9,6 +9,7 @@
         android:id="@+id/course_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="@string/course_screen_course_item_code"
         android:textAppearance="?android:textAppearanceSmall"
         android:textSize="@dimen/course_screen_course_code_text_size" />

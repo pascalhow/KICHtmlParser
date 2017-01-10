@@ -171,7 +171,7 @@ public class HtmlParserManager {
 
             Log.d(TAG, criteria.toString());
 
-            if (isValidCriteria(criteria)){
+            if (isValid(criteria)){
                 elementsCrtieriasList.add(performanceCriteria);
             }
         }
@@ -179,10 +179,16 @@ public class HtmlParserManager {
         return elementsCrtieriasList;
     }
 
-    private static boolean isValidCriteria(Criteria criteria) {
+    /**
+     * If criteria does not contain not null or empty string
+     * Then check if first character of element can be converted to integer
+     * @param criteria Criteria item from performance and criteria table
+     * @return true if criteria is valid
+     */
+    private static boolean isValid(Criteria criteria) {
 
         if (!StringHelper.isNullOrEmpty(criteria.getElement()) || !StringHelper.isNullOrEmpty(criteria.getPerformances().get(0))) {
-            if (StringHelper.isInteger(criteria.getElement().substring(0, criteria.getElement().indexOf(".")))) {
+            if (StringHelper.isInteger(criteria.getElement().substring(0, 1))) {
                 return true;
             }
         }

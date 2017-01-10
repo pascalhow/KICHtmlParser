@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
@@ -19,8 +20,6 @@ import com.pascalhow.htmlparsingexampleapp.R2;
 import com.pascalhow.htmlparsingexampleapp.adapter.CourseItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.HtmlParserManager;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
-import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
-import com.pascalhow.htmlparsingexampleapp.model.Unit;
 import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
 import java.util.ArrayList;
@@ -41,11 +40,17 @@ public class CourseFragment extends Fragment {
     @BindView(R2.id.course_list)
     RecyclerView recyclerView;
 
+    @BindView(R2.id.course_progressbar)
+    ProgressBar progressBar;
+
     private MainActivity mainActivity;
     private CourseItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
+    private ArrayList<Course> courseList = new ArrayList<>();
+
     private static final String TAG = "CourseFragment";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,15 +69,16 @@ public class CourseFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        setHasOptionsMenu(true);
 
-        loadDummyCourse();
+        setHasOptionsMenu(true);
 
         return rootView;
     }
 
     @OnClick(R2.id.load_course_btn)
     public void onLoadButtonClick() {
+
+        progressBar.setVisibility(View.VISIBLE);
         loadDummyCourse();
     }
 
@@ -90,15 +96,15 @@ public class CourseFragment extends Fragment {
                     @Override
                     public void call(Subscriber<? super ArrayList<Course>> sub) {
 
-                        loadCriteria();
+                        courseList = loadCriteria();
 
-                        ArrayList<Course> courseList = new ArrayList<>();
+//                        ArrayList<Course> courseList = new ArrayList<>();
 
-                        for (int i = 0; i < 20; i++) {
-                            courseList.add(new Course.Builder().setCode(String.valueOf(i))
-                                    .setTitle("Course " + String.valueOf(i))
-                                    .build());
-                        }
+//                        for (int i = 0; i < 20; i++) {
+//                            courseList.add(new Course.Builder().setCode(String.valueOf(i))
+//                                    .setTitle("Course " + String.valueOf(i))
+//                                    .build());
+//                        }
 
                         sub.onNext(courseList);
                         sub.onCompleted();
@@ -113,6 +119,7 @@ public class CourseFragment extends Fragment {
             @Override
             public void onCompleted() {
                 Log.d(TAG, "onCompleted");
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -123,26 +130,28 @@ public class CourseFragment extends Fragment {
             @Override
             public void onNext(ArrayList<Course> courseList) {
                 Log.d(TAG, "onNext");
-
                 mAdapter.setItemList(courseList);
             }
         };
     }
 
-    public void loadCriteria() {
+    public ArrayList<Course> loadCriteria() {
         String url = Constants.COURSE_URL;
         // Scan first page to get qualifications
         ArrayList<Course> courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
 
-        for(Course course : courseList) {
-            // iterate through list to get the second pages,which list the units
-            ArrayList<Unit> unitList = HtmlParserManager.scanPageForUnits(course.getLink(),"#tableUnits");
-            for(Unit unit : unitList) {
-                // The last page where it displays the performance and criteria pages
-                ArrayList<PerformanceCriteria> criteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
-                Log.d(TAG, criteriaList.toString());
-            }
-        }
+        return courseList;
+
+//        for(Course course : courseList) {
+//
+//            // iterate through list to get the second pages,which list the units
+//            ArrayList<Unit> unitList = HtmlParserManager.scanPageForUnits(course.getLink(),"#tableUnits");
+//            for(Unit unit : unitList) {
+//                // The last page where it displays the performance and criteria pages
+//                ArrayList<PerformanceCriteria> criteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
+//                Log.d(TAG, criteriaList.toString());
+//            }
+//        }
     }
 
     @Override
