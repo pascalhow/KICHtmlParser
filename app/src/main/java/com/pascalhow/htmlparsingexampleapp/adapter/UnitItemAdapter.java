@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
+import com.pascalhow.htmlparsingexampleapp.criteria.CriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
+import com.pascalhow.htmlparsingexampleapp.model.Unit;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 import java.util.ArrayList;
@@ -21,63 +23,63 @@ import java.util.List;
  * Created by pascal on 02/01/2017.
  */
 
-public class CourseItemAdapter extends RecyclerView.Adapter<CourseItemAdapter.ViewHolder> {
+public class UnitItemAdapter extends RecyclerView.Adapter<UnitItemAdapter.ViewHolder> {
 
-    private List<Course> courseList;
+    private List<Unit> unitList;
     private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         int itemType;
-        TextView course_item_code;
-        TextView course_item_title;
+        TextView unit_item_code;
+        TextView unit_item_title;
 
         public ViewHolder(final View itemView, int ViewType) {
             super(itemView);
             this.itemType = ViewType;
-            course_item_code = (TextView) itemView.findViewById(R.id.course_code);
-            course_item_title = (TextView) itemView.findViewById(R.id.course_title);
+            unit_item_code = (TextView) itemView.findViewById(R.id.unit_code);
+            unit_item_title = (TextView) itemView.findViewById(R.id.unit_title);
         }
     }
 
-    public CourseItemAdapter(Context context) {
-        this.courseList = new ArrayList<>();
+    public UnitItemAdapter(Context context) {
+        this.unitList = new ArrayList<>();
         this.context = context;
     }
 
-    public void setItemList(List<Course> courseList) {
-        this.courseList = courseList;
+    public void setItemList(List<Unit> unitList) {
+        this.unitList = unitList;
         notifyDataSetChanged();
     }
 
     @Override
-    public CourseItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UnitItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_list_item, parent, false);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.unit_list_item, parent, false);
         return new ViewHolder(v, viewType);
     }
 
     @Override
-    public void onBindViewHolder(final CourseItemAdapter.ViewHolder holder, final int position) {
-        final Course course = courseList.get(position);
-        holder.course_item_code.setText(course.getCode());
-        holder.course_item_title.setText(course.getTitle());
+    public void onBindViewHolder(final UnitItemAdapter.ViewHolder holder, final int position) {
+        final Unit unit = unitList.get(position);
+        holder.unit_item_code.setText(unit.getCode());
+        holder.unit_item_title.setText(unit.getTitle());
 
-        holder.itemView.setOnClickListener(v -> onSelectableClick(courseList.get(position)));
+        holder.itemView.setOnClickListener(v -> onSelectableClick(unitList.get(position)));
     }
 
-    private void onSelectableClick(Course course) {
-        UnitFragment fragmentUnit = new UnitFragment();
+    private void onSelectableClick(Unit unit) {
+        CriteriaFragment fragmentUnit = new CriteriaFragment();
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_UNIT)
-                .addToBackStack(MainActivity.FRAGMENT_UNIT)
+                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_CRITERIA)
+                .addToBackStack(MainActivity.FRAGMENT_CRITERIA)
                 .commitAllowingStateLoss();
     }
 
     @Override
     public int getItemCount() {
-        return courseList.size();
+        return unitList.size();
     }
 
     @Override

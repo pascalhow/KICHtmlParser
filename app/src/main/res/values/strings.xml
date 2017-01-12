@@ -14,7 +14,9 @@
     <string name="course_screen_course_item_title">Course Title</string>
 
     <!-- Unit Screen -->
-    <string name="hello_new_fragment">Hello new fragment</string>
+    <string name="unit_screen_unit_list">Course List</string>
+    <string name="unit_screen_unit_item_code">Unit Code</string>
+    <string name="unit_screen_unit_item_title">Unit Title</string>
 
     <!-- Criteria Screen -->
     <string name="hello_criteria_fragment">Hello criteria fragment</string>

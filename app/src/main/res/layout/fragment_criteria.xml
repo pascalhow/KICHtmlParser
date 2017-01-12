@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_new_fragment"
+        android:text="Criteria fragment"
         android:textAppearance="?android:textAppearanceMedium"
         android:textSize="@dimen/unit_screen_content_text_size" />
 </LinearLayout>

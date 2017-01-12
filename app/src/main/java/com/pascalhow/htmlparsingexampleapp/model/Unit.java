@@ -58,11 +58,13 @@ public class Unit {
     }
     @Override
     public String toString() {
-        String unitToString = "----- Unit -----\n";
-        unitToString += "Code: " + this.code + "\n";
-        unitToString += "Title: " + this.title + "\n";
-        unitToString += "Link: " + this.link + "\n";
 
-        return unitToString;
+        StringBuilder sb = new StringBuilder();
+        sb.append("----- Unit -----\n");
+        sb.append("Code: " + this.code + "\n");
+        sb.append("Title: " + this.title + "\n");
+        sb.append("Link: " + this.link + "\n");
+
+        return sb.toString();
     }
 }

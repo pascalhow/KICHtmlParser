@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import com.pascalhow.htmlparsingexampleapp.course.CourseFragment;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
+import timber.log.Timber;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String FRAGMENT_COURSE = "course";
@@ -22,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Timber.plant(new Timber.DebugTree());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

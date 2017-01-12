@@ -1,4 +1,4 @@
-package com.pascalhow.htmlparsingexampleapp.unit;
+package com.pascalhow.htmlparsingexampleapp.criteria;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,15 +10,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.R2;
-import com.pascalhow.htmlparsingexampleapp.adapter.CourseItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.adapter.UnitItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.CourseManager;
-import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
 
 import java.util.List;
@@ -31,16 +28,10 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by pascal on 25/12/2016.
+ * Created by pascal on 12/01/2017.
  */
 
-public class UnitFragment extends Fragment {
-
-    @BindView(R2.id.unit_list)
-    RecyclerView recyclerView;
-
-    @BindView(R2.id.unit_progressbar)
-    ProgressBar progressBar;
+public class CriteriaFragment extends Fragment {
 
     private UnitItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -51,45 +42,42 @@ public class UnitFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_unit, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_criteria, container, false);
 
         ButterKnife.bind(this, rootView);
 
         mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.unit_fragment_title);
+        mainActivity.setTitle(R.string.criteria_fragment_title);
 
-        progressBar.setVisibility(View.VISIBLE);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-
-        mAdapter = new UnitItemAdapter(getContext());
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//
+//        mAdapter = new UnitItemAdapter(getContext());
 
         courseManager = new CourseManager();
+//
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setAdapter(mAdapter);
+//        recyclerView.setLayoutManager(mLayoutManager);
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setLayoutManager(mLayoutManager);
-
-        setUnitObservable();
+        setCriteriaObservable();
 
         setHasOptionsMenu(true);
 
         return rootView;
     }
 
-    public void setUnitObservable() {
+    public void setCriteriaObservable() {
         courseManager.getUnitObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getUnitSubscriber());
+                .subscribe(getCriteriaSubscriber());
     }
 
-    public Subscriber<List<Unit>> getUnitSubscriber() {
+    public Subscriber<List<Unit>> getCriteriaSubscriber() {
         return new Subscriber<List<Unit>>() {
 
             @Override
             public void onCompleted() {
                 Timber.d("onCompleted");
-                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -100,7 +88,7 @@ public class UnitFragment extends Fragment {
             @Override
             public void onNext(List<Unit> unitList) {
                 Timber.d("onNext");
-                mAdapter.setItemList(unitList);
+//                mAdapter.setItemList(unitList);
             }
         };
     }
@@ -132,3 +120,4 @@ public class UnitFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 }
+

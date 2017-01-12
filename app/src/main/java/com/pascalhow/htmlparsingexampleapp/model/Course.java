@@ -59,12 +59,13 @@ public class Course {
     }
     @Override
     public String toString() {
-        
-        String courseToString = "----- Course -----\n";
-        courseToString += "Code: " + this.code + "\n";
-        courseToString += "Title: " + this.title + "\n";
-        courseToString += "Link: " + this.link + "\n";
 
-        return courseToString;
+        StringBuilder sb = new StringBuilder();
+        sb.append("----- Course -----\n");
+        sb.append("Code: " + this.code + "\n");
+        sb.append("Title: " + this.title + "\n");
+        sb.append("Link: " + this.link + "\n");
+
+        return sb.toString();
     }
 }

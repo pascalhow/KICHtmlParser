@@ -1,7 +1,5 @@
 package com.pascalhow.htmlparsingexampleapp.classes;
 
-import android.util.Log;
-
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.Criteria;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
@@ -15,6 +13,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import timber.log.Timber;
 
 /**
  * Created by pascal on 03/01/2017.
@@ -37,7 +37,7 @@ public class HtmlParserManager {
         }
         catch(IOException error) {
             // If it fails it would throw an error and return an empty array
-            Log.d(TAG, "failed to scan page");
+             Timber.d("failed to scan page");
             return new ArrayList<>();
         }
     }
@@ -80,7 +80,7 @@ public class HtmlParserManager {
         }
         catch(IOException error) {
             // If it fails it would throw an error and return an empty array
-            Log.d(TAG, "failed to scan page");
+             Timber.d("failed to scan page");
             return new ArrayList<>();
         }
     }
@@ -146,7 +146,7 @@ public class HtmlParserManager {
             return criteriasList;
         }
         catch(IOException error) {
-            Log.d(TAG, "failed to scan page");
+             Timber.d("failed to scan page");
             return new ArrayList<>();
         }
     }
@@ -169,7 +169,7 @@ public class HtmlParserManager {
                     .addCriteria(criteria)
                     .build();
 
-            Log.d(TAG, criteria.toString());
+            Timber.d(criteria.toString());
 
             if (isValid(criteria)){
                 elementsCrtieriasList.add(performanceCriteria);

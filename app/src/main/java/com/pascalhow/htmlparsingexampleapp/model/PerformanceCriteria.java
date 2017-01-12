@@ -30,11 +30,14 @@ public class PerformanceCriteria {
 
     @Override
     public String toString() {
-        String performanceCriteriaToString = "----- Performance criteria -----\n";
-        for (Criteria crit : criteria) {
-            performanceCriteriaToString += crit.getElement();
-            performanceCriteriaToString +=  "\n";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("----- Performance criteria -----\n");
+
+        for(Criteria crit : criteria) {
+            sb.append(crit.getElement());
+            sb.append("\n");
         }
-        return performanceCriteriaToString;
+        return sb.toString();
     }
 }
