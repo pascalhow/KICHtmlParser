@@ -11,10 +11,8 @@ import android.widget.TextView;
 
 import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
-import com.pascalhow.htmlparsingexampleapp.criteria.CriteriaFragment;
-import com.pascalhow.htmlparsingexampleapp.model.Course;
+import com.pascalhow.htmlparsingexampleapp.criteria.PerformanceCriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
-import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,11 +67,11 @@ public class UnitItemAdapter extends RecyclerView.Adapter<UnitItemAdapter.ViewHo
     }
 
     private void onSelectableClick(Unit unit) {
-        CriteriaFragment fragmentUnit = new CriteriaFragment();
+        PerformanceCriteriaFragment fragmentUnit = new PerformanceCriteriaFragment();
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_CRITERIA)
-                .addToBackStack(MainActivity.FRAGMENT_CRITERIA)
+                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_PERFORMANCE_CRITERIA)
+                .addToBackStack(MainActivity.FRAGMENT_PERFORMANCE_CRITERIA)
                 .commitAllowingStateLoss();
     }
 

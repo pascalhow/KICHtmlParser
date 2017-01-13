@@ -16,10 +16,8 @@ import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.R2;
 import com.pascalhow.htmlparsingexampleapp.adapter.PerformanceCriteriaItemAdapter;
-import com.pascalhow.htmlparsingexampleapp.adapter.UnitItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.CourseManager;
-import com.pascalhow.htmlparsingexampleapp.model.Criteria;
-import com.pascalhow.htmlparsingexampleapp.model.Unit;
+import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ import timber.log.Timber;
  * Created by pascal on 12/01/2017.
  */
 
-public class CriteriaFragment extends Fragment {
+public class PerformanceCriteriaFragment extends Fragment {
 
     @BindView(R2.id.performance_criteria_progressbar)
     ProgressBar progressBar;
@@ -51,12 +49,12 @@ public class CriteriaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_criteria, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_performance_criteria, container, false);
 
         ButterKnife.bind(this, rootView);
 
         mainActivity = (MainActivity) getActivity();
-        getActivity().setTitle(R.string.criteria_fragment_title);
+        getActivity().setTitle(R.string.performance_criteria_fragment_title);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -83,8 +81,8 @@ public class CriteriaFragment extends Fragment {
                 .subscribe(getPerformanceCriteriaSubscriber());
     }
 
-    public Subscriber<List<Criteria>> getPerformanceCriteriaSubscriber() {
-        return new Subscriber<List<Criteria>>() {
+    public Subscriber<List<PerformanceCriteria>> getPerformanceCriteriaSubscriber() {
+        return new Subscriber<List<PerformanceCriteria>>() {
 
             @Override
             public void onCompleted() {
@@ -98,9 +96,9 @@ public class CriteriaFragment extends Fragment {
             }
 
             @Override
-            public void onNext(List<Criteria> criteriaList) {
+            public void onNext(List<PerformanceCriteria> performanceCriteriaList) {
                 Timber.d("onNext");
-                mAdapter.setItemList(criteriaList);
+                mAdapter.setItemList(performanceCriteriaList);
             }
         };
     }
@@ -120,7 +118,7 @@ public class CriteriaFragment extends Fragment {
 
     @Override
     public void onResume() {
-        mainActivity.setTitle(R.string.criteria_fragment_title);
+        mainActivity.setTitle(R.string.performance_criteria_fragment_title);
         super.onResume();
     }
 

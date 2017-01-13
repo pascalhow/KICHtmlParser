@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pascalhow.htmlparsingexampleapp.course.CourseFragment;
-import com.pascalhow.htmlparsingexampleapp.criteria.CriteriaFragment;
+import com.pascalhow.htmlparsingexampleapp.criteria.PerformanceCriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 import timber.log.Timber;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String FRAGMENT_COURSE = "course";
     public static final String FRAGMENT_UNIT = "unit";
-    public static final String FRAGMENT_CRITERIA = "criteria";
+    public static final String FRAGMENT_PERFORMANCE_CRITERIA = "performance_criteria";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
             setTitle(getResources().getString(R.string.course_fragment_title));
         } else if (fragClassName.equals(UnitFragment.class.getName())) {
             setTitle(getResources().getString(R.string.unit_fragment_title));
-        } else if (fragClassName.equals(CriteriaFragment.class.getName())) {
-            setTitle(getResources().getString(R.string.criteria_fragment_title));
+        } else if (fragClassName.equals(PerformanceCriteriaFragment.class.getName())) {
+            setTitle(getResources().getString(R.string.performance_criteria_fragment_title));
         }
     }
 
@@ -78,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
                         .addToBackStack(FRAGMENT_UNIT)
                         .commitAllowingStateLoss();
 
-            case FRAGMENT_CRITERIA:
+            case FRAGMENT_PERFORMANCE_CRITERIA:
                 fragmentManager.beginTransaction()
                         .add(R.id.base_fragment, fragment, tag)
-                        .addToBackStack(FRAGMENT_CRITERIA)
+                        .addToBackStack(FRAGMENT_PERFORMANCE_CRITERIA)
                         .commitAllowingStateLoss();
             default:
                 break;

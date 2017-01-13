@@ -1,20 +1,14 @@
 package com.pascalhow.htmlparsingexampleapp.adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
-import com.pascalhow.htmlparsingexampleapp.criteria.CriteriaFragment;
-import com.pascalhow.htmlparsingexampleapp.model.Criteria;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
-import com.pascalhow.htmlparsingexampleapp.model.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,30 +19,30 @@ import java.util.List;
 
 public class PerformanceCriteriaItemAdapter extends RecyclerView.Adapter<PerformanceCriteriaItemAdapter.ViewHolder> {
 
-    private List<Criteria> criteriaList;
+    private List<PerformanceCriteria> performanceCriteriaList;
     private Context context;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         int itemType;
-        TextView criteria;
-        TextView performances;
+        TextView criteriaElement;
+        TextView criteriaPerformances;
 
         public ViewHolder(final View itemView, int ViewType) {
             super(itemView);
             this.itemType = ViewType;
-            criteria = (TextView) itemView.findViewById(R.id.performance_criteria_criteria);
-            performances = (TextView) itemView.findViewById(R.id.performance_criteria_performances);
+            criteriaElement = (TextView) itemView.findViewById(R.id.performance_criteria_element);
+            criteriaPerformances = (TextView) itemView.findViewById(R.id.performance_criteria_performances);
         }
     }
 
     public PerformanceCriteriaItemAdapter(Context context) {
-        this.criteriaList = new ArrayList<>();
+        this.performanceCriteriaList = new ArrayList<>();
         this.context = context;
     }
 
-    public void setItemList(List<Criteria> performanceCriteriaList) {
-        this.criteriaList = performanceCriteriaList;
+    public void setItemList(List<PerformanceCriteria> performanceCriteriaList) {
+        this.performanceCriteriaList = performanceCriteriaList;
         notifyDataSetChanged();
     }
 
@@ -61,14 +55,14 @@ public class PerformanceCriteriaItemAdapter extends RecyclerView.Adapter<Perform
 
     @Override
     public void onBindViewHolder(final PerformanceCriteriaItemAdapter.ViewHolder holder, final int position) {
-        final Criteria performanceCriteria = criteriaList.get(position);
-        holder.criteria.setText(performanceCriteria.getElement());
-        holder.performances.setText(performanceCriteria.getPerformancesString());
+        final PerformanceCriteria performanceCriteria = performanceCriteriaList.get(position);
+        holder.criteriaElement.setText(performanceCriteria.getElement());
+        holder.criteriaPerformances.setText(performanceCriteria.getPerformanceListString());
     }
 
     @Override
     public int getItemCount() {
-        return criteriaList.size();
+        return performanceCriteriaList.size();
     }
 
     @Override

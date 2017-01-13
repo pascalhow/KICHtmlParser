@@ -1,6 +1,6 @@
 package com.pascalhow.htmlparsingexampleapp.model;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,28 +9,54 @@ import java.util.List;
 
 public class PerformanceCriteria {
 
-    private final List<Criteria> criteriaList;
+    private String element;
+    private List<String> performanceList;
 
     public static class Builder {
 
-        private ArrayList<Criteria> criteriaList = new ArrayList<>();
+        private String element = "";
+        private List<String> performanceList;
 
-        public Builder setCriteriaList(Criteria criteria) {
-            this.criteriaList.add(criteria);
+        public Builder setElement(String element) {
+            this.element = element;
             return this;
         }
 
+        public Builder setPerformanceList(List<String> performanceList) {
+            this.performanceList = performanceList;
+            return  this;
+        }
+
         public PerformanceCriteria build() {
-            return new PerformanceCriteria(this);
+            return new PerformanceCriteria(this.element, this.performanceList);
         }
     }
 
-    private PerformanceCriteria(Builder builder) {
-        this.criteriaList = builder.criteriaList;
+    private PerformanceCriteria(String element, List<String> performances) {
+        this.element = element;
+        this.performanceList = performances;
     }
 
-    public List<Criteria> getCriteriaList() {
-        return this.criteriaList;
+    public String getElement() {
+        return this.element;
+    }
+
+    public List<String> getPerformanceList() {
+
+        return (!this.performanceList.isEmpty()) ? this.performanceList : Collections.emptyList();
+    }
+
+    public String getPerformanceListString() {
+        if (!performanceList.isEmpty() || performanceList != null) {
+            StringBuilder sb = new StringBuilder();
+
+            for (String s : performanceList) {
+                sb.append(s + "\n");
+            }
+            return sb.toString();
+        } else {
+            return "";
+        }
     }
 
     @Override
@@ -38,10 +64,11 @@ public class PerformanceCriteria {
 
         StringBuilder sb = new StringBuilder();
         sb.append("----- Performance criteriaList -----\n");
+        sb.append("Element: ");
+        sb.append(element + "\n");
 
-        for(Criteria crit : criteriaList) {
-            sb.append(crit.getElement());
-            sb.append("\n");
+        for(String performances : performanceList) {
+            sb.append(performances + "\n");
         }
         return sb.toString();
     }

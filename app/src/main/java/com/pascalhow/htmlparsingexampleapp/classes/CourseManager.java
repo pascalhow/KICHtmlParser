@@ -1,10 +1,8 @@
 package com.pascalhow.htmlparsingexampleapp.classes;
 
 import com.pascalhow.htmlparsingexampleapp.model.Course;
-import com.pascalhow.htmlparsingexampleapp.model.Criteria;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
-import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ import rx.Subscriber;
 public class CourseManager {
     private List<Course> courseList = new ArrayList<>();
     private List<Unit> unitList = new ArrayList<>();
-    private List<Criteria> performanceCriteriaList = new ArrayList<>();
+    private List<PerformanceCriteria> performanceCriteriaList = new ArrayList<>();
 
     public Observable<List<Course>> getCourseObservable() {
         return Observable.create(
@@ -49,11 +47,11 @@ public class CourseManager {
         );
     }
 
-    public Observable<List<Criteria>> getCriteriaObservable() {
+    public Observable<List<PerformanceCriteria>> getCriteriaObservable() {
         return Observable.create(
-                new Observable.OnSubscribe<List<Criteria>>() {
+                new Observable.OnSubscribe<List<PerformanceCriteria>>() {
                     @Override
-                    public void call(Subscriber<? super List<Criteria>> sub) {
+                    public void call(Subscriber<? super List<PerformanceCriteria>> sub) {
 
                         loadCourseMaterials();
                         sub.onNext(performanceCriteriaList);
@@ -64,12 +62,12 @@ public class CourseManager {
     }
 
     public void loadCourseMaterials() {
-        String url = Constants.COURSE_URL;
 
         courseList = getDummyCourseList();
         unitList = getDummyUnitList();
         performanceCriteriaList = getDummyPerformanceCriteriaList();
 
+//        String url = Constants.COURSE_URL;
         // Scan first page to get qualifications
 //        courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
 //
@@ -97,8 +95,8 @@ public class CourseManager {
         ArrayList<Course> dummyCourseList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            dummyCourseList.add(new Course.Builder().setCode(String.valueOf((i + 1)))
-                    .setTitle("Course " + String.valueOf((i + 1)))
+            dummyCourseList.add(new Course.Builder().setCode("Course Code " + String.valueOf((i + 1)))
+                    .setTitle("Course Name " + String.valueOf((i + 1)))
                     .build());
         }
 
@@ -113,8 +111,8 @@ public class CourseManager {
         ArrayList<Unit> dummyUnitList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
-            dummyUnitList.add(new Unit.Builder().setCode(String.valueOf((i + 1)))
-                    .setTitle("Unit " + String.valueOf((i + 1)))
+            dummyUnitList.add(new Unit.Builder().setCode("Unit Code " + String.valueOf((i + 1)))
+                    .setTitle("Unit Name " + String.valueOf((i + 1)))
                     .build());
         }
 
@@ -122,25 +120,27 @@ public class CourseManager {
     }
 
     /**
-     * @return Dummy Performance Criteria List
+     * @return Dummy Performance PerformanceCriteria List
      */
-    private ArrayList<Criteria> getDummyPerformanceCriteriaList() {
+    private ArrayList<PerformanceCriteria> getDummyPerformanceCriteriaList() {
 
-        ArrayList<PerformanceCriteria> dummyPerformanceCriteriaList = new ArrayList<>();
-        ArrayList<Criteria> criteriaList = new ArrayList<>();
+//        ArrayList<PerformanceCriteria> dummyPerformanceCriteriaList = new ArrayList<>();
+        ArrayList<PerformanceCriteria> performanceCriteriaList = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
 
             ArrayList<String> performanceList = new ArrayList<>();
 
-            for(int j = 0; j < 3; j++) {
+            for (int j = 0; j < 3; j++) {
                 performanceList.add("Performance " + String.valueOf((j + 1)));
             }
 
-            criteriaList.add(new Criteria("Element " + String.valueOf((i + 1)), performanceList));
+            performanceCriteriaList.add(new PerformanceCriteria.Builder().setElement("Element " + String.valueOf((i + 1)))
+                    .setPerformanceList(performanceList)
+                    .build());
 
-//            dummyPerformanceCriteriaList.add(new PerformanceCriteria.Builder().setCriteriaList(criteriaList.get(i)).build());
+//            dummyPerformanceCriteriaList.add(new PerformanceCriteria.Builder().setCriteriaList(performanceCriteriaList.get(i)).build());
         }
-        return criteriaList;
+        return performanceCriteriaList;
     }
 }
