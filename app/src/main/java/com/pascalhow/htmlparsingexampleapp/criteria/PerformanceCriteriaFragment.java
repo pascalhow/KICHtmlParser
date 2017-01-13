@@ -88,6 +88,7 @@ public class PerformanceCriteriaFragment extends Fragment {
             public void onCompleted() {
                 Timber.d("onCompleted");
                 progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override

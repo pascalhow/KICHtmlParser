@@ -17,9 +17,9 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String FRAGMENT_COURSE = "course";
-    public static final String FRAGMENT_UNIT = "unit";
-    public static final String FRAGMENT_PERFORMANCE_CRITERIA = "performance_criteria";
+    public static final int FRAGMENT_COURSE = 0;
+    public static final int FRAGMENT_UNIT = 1;
+    public static final int FRAGMENT_PERFORMANCE_CRITERIA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
      * @param fragment The new fragment
      * @param tag      A tag relating to the new fragment
      */
-    public void loadFragment(Fragment fragment, String tag) {
+    public void loadFragment(Fragment fragment, int tag) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -68,20 +68,20 @@ public class MainActivity extends AppCompatActivity {
 
             case FRAGMENT_COURSE:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.base_fragment, fragment, tag)
+                        .replace(R.id.base_fragment, fragment, getClass().getSimpleName())
                         .commit();
                 break;
 
             case FRAGMENT_UNIT:
                 fragmentManager.beginTransaction()
-                        .add(R.id.base_fragment, fragment, tag)
-                        .addToBackStack(FRAGMENT_UNIT)
+                        .add(R.id.base_fragment, fragment, getClass().getSimpleName())
+                        .addToBackStack(getClass().getSimpleName())
                         .commitAllowingStateLoss();
 
             case FRAGMENT_PERFORMANCE_CRITERIA:
                 fragmentManager.beginTransaction()
-                        .add(R.id.base_fragment, fragment, tag)
-                        .addToBackStack(FRAGMENT_PERFORMANCE_CRITERIA)
+                        .add(R.id.base_fragment, fragment, getClass().getSimpleName())
+                        .addToBackStack(getClass().getSimpleName())
                         .commitAllowingStateLoss();
             default:
                 break;

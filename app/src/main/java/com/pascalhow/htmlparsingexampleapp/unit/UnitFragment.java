@@ -12,13 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.R2;
-import com.pascalhow.htmlparsingexampleapp.adapter.CourseItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.adapter.UnitItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.CourseManager;
-import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
 
 import java.util.List;

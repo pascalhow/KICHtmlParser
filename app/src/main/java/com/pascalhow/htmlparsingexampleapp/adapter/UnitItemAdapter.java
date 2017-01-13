@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.criteria.PerformanceCriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
@@ -63,15 +62,16 @@ public class UnitItemAdapter extends RecyclerView.Adapter<UnitItemAdapter.ViewHo
         holder.unit_item_code.setText(unit.getCode());
         holder.unit_item_title.setText(unit.getTitle());
 
-        holder.itemView.setOnClickListener(v -> onSelectableClick(unitList.get(position)));
+        //  TODO: Add onSelectableClick(unitList.get(position)) if need to pass bundle
+        holder.itemView.setOnClickListener(v -> onSelectableClick());
     }
 
-    private void onSelectableClick(Unit unit) {
+    private void onSelectableClick() {
         PerformanceCriteriaFragment fragmentUnit = new PerformanceCriteriaFragment();
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_PERFORMANCE_CRITERIA)
-                .addToBackStack(MainActivity.FRAGMENT_PERFORMANCE_CRITERIA)
+                .add(R.id.base_fragment, fragmentUnit, getClass().getSimpleName())
+                .addToBackStack(getClass().getSimpleName())
                 .commitAllowingStateLoss();
     }
 

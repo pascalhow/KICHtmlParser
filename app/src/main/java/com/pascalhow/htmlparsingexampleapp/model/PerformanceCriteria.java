@@ -53,7 +53,7 @@ public class PerformanceCriteria {
             for (String s : performanceList) {
                 sb.append(s + "\n");
             }
-            return sb.toString();
+            return sb.toString().substring(0, sb.toString().length() - 1);
         } else {
             return "";
         }

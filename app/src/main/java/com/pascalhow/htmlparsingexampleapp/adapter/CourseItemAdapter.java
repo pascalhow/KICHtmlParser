@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
@@ -63,15 +62,17 @@ public class CourseItemAdapter extends RecyclerView.Adapter<CourseItemAdapter.Vi
         holder.course_item_code.setText(course.getCode());
         holder.course_item_title.setText(course.getTitle());
 
-        holder.itemView.setOnClickListener(v -> onSelectableClick(courseList.get(position)));
+        //  TODO: Add onSelectableClick(courseList.get(position)) if need to pass bundle
+        holder.itemView.setOnClickListener(v -> onSelectableClick());
     }
 
-    private void onSelectableClick(Course course) {
+    private void onSelectableClick() {
+
         UnitFragment fragmentUnit = new UnitFragment();
         FragmentManager fragmentManager = ((FragmentActivity) context).getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.base_fragment, fragmentUnit, MainActivity.FRAGMENT_UNIT)
-                .addToBackStack(MainActivity.FRAGMENT_UNIT)
+                .add(R.id.base_fragment, fragmentUnit, getClass().getSimpleName())
+                .addToBackStack(getClass().getSimpleName())
                 .commitAllowingStateLoss();
     }
 
