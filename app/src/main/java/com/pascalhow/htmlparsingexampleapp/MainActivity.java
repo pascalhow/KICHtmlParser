@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pascalhow.htmlparsingexampleapp.course.CourseFragment;
+import com.pascalhow.htmlparsingexampleapp.criteria.CriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 import timber.log.Timber;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Handle screen display when navigating between fragment
+     *
      * @param fragment The current fragment
      */
     private void updateFragmentTitle(Fragment fragment) {
@@ -47,15 +49,18 @@ public class MainActivity extends AppCompatActivity {
             setTitle(getResources().getString(R.string.course_fragment_title));
         } else if (fragClassName.equals(UnitFragment.class.getName())) {
             setTitle(getResources().getString(R.string.unit_fragment_title));
+        } else if (fragClassName.equals(CriteriaFragment.class.getName())) {
+            setTitle(getResources().getString(R.string.criteria_fragment_title));
         }
     }
 
     /**
      * Replaces or adds a new fragment on top of the current fragment
+     *
      * @param fragment The new fragment
-     * @param tag A tag relating to the new fragment
+     * @param tag      A tag relating to the new fragment
      */
-    public void loadFragment(android.support.v4.app.Fragment fragment, String tag) {
+    public void loadFragment(Fragment fragment, String tag) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

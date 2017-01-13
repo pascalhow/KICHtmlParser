@@ -23,4 +23,17 @@ public class Criteria {
     public ArrayList<String> getPerformances() {
         return this.performances;
     }
+
+    public String getPerformancesString() {
+        if (!performances.isEmpty() || performances != null) {
+            StringBuilder sb = new StringBuilder();
+
+            for (String s : performances) {
+                sb.append(s + "\n");
+            }
+            return sb.toString();
+        } else {
+            return "";
+        }
+    }
 }

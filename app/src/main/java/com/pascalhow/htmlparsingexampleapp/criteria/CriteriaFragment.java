@@ -10,12 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.R2;
+import com.pascalhow.htmlparsingexampleapp.adapter.PerformanceCriteriaItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.adapter.UnitItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.CourseManager;
+import com.pascalhow.htmlparsingexampleapp.model.Criteria;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
 
 import java.util.List;
@@ -33,7 +36,13 @@ import timber.log.Timber;
 
 public class CriteriaFragment extends Fragment {
 
-    private UnitItemAdapter mAdapter;
+    @BindView(R2.id.performance_criteria_progressbar)
+    ProgressBar progressBar;
+
+    @BindView(R2.id.performance_criteria_list)
+    RecyclerView recyclerView;
+
+    private PerformanceCriteriaItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private CourseManager courseManager;
 
@@ -47,17 +56,19 @@ public class CriteriaFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.criteria_fragment_title);
+        getActivity().setTitle(R.string.criteria_fragment_title);
 
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//
-//        mAdapter = new UnitItemAdapter(getContext());
+        progressBar.setVisibility(View.VISIBLE);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mAdapter = new PerformanceCriteriaItemAdapter(getContext());
 
         courseManager = new CourseManager();
-//
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(mAdapter);
-//        recyclerView.setLayoutManager(mLayoutManager);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(mLayoutManager);
 
         setCriteriaObservable();
 
@@ -67,17 +78,18 @@ public class CriteriaFragment extends Fragment {
     }
 
     public void setCriteriaObservable() {
-        courseManager.getUnitObservable().subscribeOn(Schedulers.io())
+        courseManager.getCriteriaObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getCriteriaSubscriber());
+                .subscribe(getPerformanceCriteriaSubscriber());
     }
 
-    public Subscriber<List<Unit>> getCriteriaSubscriber() {
-        return new Subscriber<List<Unit>>() {
+    public Subscriber<List<Criteria>> getPerformanceCriteriaSubscriber() {
+        return new Subscriber<List<Criteria>>() {
 
             @Override
             public void onCompleted() {
                 Timber.d("onCompleted");
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -86,9 +98,9 @@ public class CriteriaFragment extends Fragment {
             }
 
             @Override
-            public void onNext(List<Unit> unitList) {
+            public void onNext(List<Criteria> criteriaList) {
                 Timber.d("onNext");
-//                mAdapter.setItemList(unitList);
+                mAdapter.setItemList(criteriaList);
             }
         };
     }
@@ -104,6 +116,12 @@ public class CriteriaFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public void onResume() {
+        mainActivity.setTitle(R.string.criteria_fragment_title);
+        super.onResume();
     }
 
     @Override

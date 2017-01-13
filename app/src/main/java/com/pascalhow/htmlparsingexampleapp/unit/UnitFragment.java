@@ -46,7 +46,6 @@ public class UnitFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private CourseManager courseManager;
 
-    private MainActivity mainActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,8 +54,7 @@ public class UnitFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.unit_fragment_title);
+        getActivity().setTitle(R.string.unit_fragment_title);
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -103,6 +101,12 @@ public class UnitFragment extends Fragment {
                 mAdapter.setItemList(unitList);
             }
         };
+    }
+
+    @Override
+    public void onResume() {
+        getActivity().setTitle(R.string.unit_fragment_title);
+        super.onResume();
     }
 
     @Override

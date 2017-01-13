@@ -21,7 +21,6 @@
                 android:id="@+id/load_course_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_margin_vertical_small"
                 android:text="@string/course_screen_load_button_text" />
 
             <ProgressBar

@@ -45,13 +45,10 @@ public class CourseFragment extends Fragment {
     @BindView(R2.id.course_progressbar)
     ProgressBar progressBar;
 
-    private MainActivity mainActivity;
     private CourseItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
     private CourseManager courseManager = new CourseManager();
-
-    private static final String TAG = "CourseFragment";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,8 +57,7 @@ public class CourseFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.course_fragment_title);
+        getActivity().setTitle(R.string.course_fragment_title);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
@@ -85,6 +81,12 @@ public class CourseFragment extends Fragment {
         courseManager.getCourseObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getCourseSubscriber());
+    }
+
+    @Override
+    public void onResume() {
+        getActivity().setTitle(R.string.course_fragment_title);
+        super.onResume();
     }
 
     public Subscriber<List<Course>> getCourseSubscriber() {

@@ -2,6 +2,7 @@ package com.pascalhow.htmlparsingexampleapp.classes;
 
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.Criteria;
+import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
 import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
@@ -18,7 +19,7 @@ import rx.Subscriber;
 public class CourseManager {
     private List<Course> courseList = new ArrayList<>();
     private List<Unit> unitList = new ArrayList<>();
-    private List<Criteria> criteriaList = new ArrayList<>();
+    private List<Criteria> performanceCriteriaList = new ArrayList<>();
 
     public Observable<List<Course>> getCourseObservable() {
         return Observable.create(
@@ -55,7 +56,7 @@ public class CourseManager {
                     public void call(Subscriber<? super List<Criteria>> sub) {
 
                         loadCourseMaterials();
-                        sub.onNext(criteriaList);
+                        sub.onNext(performanceCriteriaList);
                         sub.onCompleted();
                     }
                 }
@@ -64,10 +65,17 @@ public class CourseManager {
 
     public void loadCourseMaterials() {
         String url = Constants.COURSE_URL;
-        // Scan first page to get qualifications
-        courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
 
-        unitList = HtmlParserManager.scanPageForUnits(courseList.get(0).getLink(),"#tableUnits");
+        courseList = getDummyCourseList();
+        unitList = getDummyUnitList();
+        performanceCriteriaList = getDummyPerformanceCriteriaList();
+
+        // Scan first page to get qualifications
+//        courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
+//
+//        unitList = HtmlParserManager.scanPageForUnits(courseList.get(0).getLink(), "#tableUnits");
+//
+//        performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unitList.get(0).getLink());
 //        for(Course course : courseList) {
 //
 //            // iterate through list to get the second pages,which list the units
@@ -75,9 +83,64 @@ public class CourseManager {
 //
 //            for(Unit unit : unitList) {
 //                // The last page where it displays the performance and criteria pages
-//                ArrayList<PerformanceCriteria> criteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
-//                Log.d(TAG, criteriaList.toString());
+//                ArrayList<PerformanceCriteria> performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
+//                Log.d(TAG, performanceCriteriaList.toString());
 //            }
 //        }
+    }
+
+    /**
+     * @return Dummy Course List
+     */
+    private ArrayList<Course> getDummyCourseList() {
+
+        ArrayList<Course> dummyCourseList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            dummyCourseList.add(new Course.Builder().setCode(String.valueOf((i + 1)))
+                    .setTitle("Course " + String.valueOf((i + 1)))
+                    .build());
+        }
+
+        return dummyCourseList;
+    }
+
+    /**
+     * @return Dummy Unit List
+     */
+    private ArrayList<Unit> getDummyUnitList() {
+
+        ArrayList<Unit> dummyUnitList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            dummyUnitList.add(new Unit.Builder().setCode(String.valueOf((i + 1)))
+                    .setTitle("Unit " + String.valueOf((i + 1)))
+                    .build());
+        }
+
+        return dummyUnitList;
+    }
+
+    /**
+     * @return Dummy Performance Criteria List
+     */
+    private ArrayList<Criteria> getDummyPerformanceCriteriaList() {
+
+        ArrayList<PerformanceCriteria> dummyPerformanceCriteriaList = new ArrayList<>();
+        ArrayList<Criteria> criteriaList = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+
+            ArrayList<String> performanceList = new ArrayList<>();
+
+            for(int j = 0; j < 3; j++) {
+                performanceList.add("Performance " + String.valueOf((j + 1)));
+            }
+
+            criteriaList.add(new Criteria("Element " + String.valueOf((i + 1)), performanceList));
+
+//            dummyPerformanceCriteriaList.add(new PerformanceCriteria.Builder().setCriteriaList(criteriaList.get(i)).build());
+        }
+        return criteriaList;
     }
 }

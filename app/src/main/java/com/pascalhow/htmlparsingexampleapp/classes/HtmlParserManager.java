@@ -153,7 +153,7 @@ public class HtmlParserManager {
 
     private static ArrayList<PerformanceCriteria> buildPerformanceCriteriaList(Element table) {
 
-        ArrayList<PerformanceCriteria> elementsCrtieriasList = new ArrayList<>();
+        ArrayList<PerformanceCriteria> elementsCriteriaList = new ArrayList<>();
 
         Elements rows = table.children();
         for (int i = 1; i < rows.size(); i ++) {
@@ -166,17 +166,17 @@ public class HtmlParserManager {
             Criteria criteria = new Criteria(rows.get(i).child(0).text(), performances);
 
             PerformanceCriteria performanceCriteria = new PerformanceCriteria.Builder()
-                    .addCriteria(criteria)
+                    .setCriteriaList(criteria)
                     .build();
 
             Timber.d(criteria.toString());
 
             if (isValid(criteria)){
-                elementsCrtieriasList.add(performanceCriteria);
+                elementsCriteriaList.add(performanceCriteria);
             }
         }
 
-        return elementsCrtieriasList;
+        return elementsCriteriaList;
     }
 
     /**
