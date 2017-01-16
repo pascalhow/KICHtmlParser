@@ -3,6 +3,7 @@ package com.pascalhow.htmlparsingexampleapp.classes;
 import com.pascalhow.htmlparsingexampleapp.model.Course;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
+import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,17 +64,15 @@ public class CourseManager {
 
     public void loadCourseMaterials() {
 
-        courseList = getDummyCourseList();
-        unitList = getDummyUnitList();
-        performanceCriteriaList = getDummyPerformanceCriteriaList();
+//        courseList = getDummyCourseList();
+//        unitList = getDummyUnitList();
+//        performanceCriteriaList = getDummyPerformanceCriteriaList();
 
-//        String url = Constants.COURSE_URL;
         // Scan first page to get qualifications
-//        courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
-//
-//        unitList = HtmlParserManager.scanPageForUnits(courseList.get(0).getLink(), "#tableUnits");
-//
-//        performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unitList.get(0).getLink());
+        String url = Constants.COURSE_URL;
+        courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
+        unitList = HtmlParserManager.scanPageForUnits(courseList.get(0).getLink(), "#tableUnits");
+        performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unitList.get(0).getLink());
 //        for(Course course : courseList) {
 //
 //            // iterate through list to get the second pages,which list the units
