@@ -23,6 +23,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -41,6 +42,8 @@ public class UnitFragment extends Fragment {
 
     private UnitItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+
+    private Subscription subscription;
     private CourseManager courseManager;
 
     @Override
@@ -73,7 +76,7 @@ public class UnitFragment extends Fragment {
     }
 
     public void setUnitObservable() {
-        courseManager.getUnitObservable().subscribeOn(Schedulers.io())
+        this.subscription = courseManager.getUnitObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getUnitSubscriber());
     }
@@ -131,5 +134,14 @@ public class UnitFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (this.subscription != null) {
+            this.subscription.unsubscribe();
+        }
     }
 }

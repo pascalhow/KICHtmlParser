@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -42,6 +43,8 @@ public class PerformanceCriteriaFragment extends Fragment {
 
     private PerformanceCriteriaItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+
+    private Subscription subscription;
     private CourseManager courseManager;
 
     private MainActivity mainActivity;
@@ -76,7 +79,7 @@ public class PerformanceCriteriaFragment extends Fragment {
     }
 
     public void setCriteriaObservable() {
-        courseManager.getCriteriaObservable().subscribeOn(Schedulers.io())
+        this.subscription = courseManager.getCriteriaObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getPerformanceCriteriaSubscriber());
     }
@@ -135,6 +138,15 @@ public class PerformanceCriteriaFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (this.subscription != null) {
+            this.subscription.unsubscribe();
+        }
     }
 }
 

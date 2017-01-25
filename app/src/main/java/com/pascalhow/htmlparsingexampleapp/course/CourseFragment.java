@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -43,6 +44,7 @@ public class CourseFragment extends Fragment {
     private CourseItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
+    private Subscription subscription;
     private CourseManager courseManager = new CourseManager();
 
     @Override
@@ -73,7 +75,8 @@ public class CourseFragment extends Fragment {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        courseManager.getCourseObservable().subscribeOn(Schedulers.io())
+        subscription = courseManager.getCourseObservable()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getCourseSubscriber());
     }
@@ -131,5 +134,14 @@ public class CourseFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (this.subscription != null) {
+            this.subscription.unsubscribe();
+        }
     }
 }
