@@ -2,17 +2,31 @@ package com.pascalhow.htmlparsingexampleapp.unit;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
-import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
+import com.pascalhow.htmlparsingexampleapp.R2;
+import com.pascalhow.htmlparsingexampleapp.adapter.UnitItemAdapter;
+import com.pascalhow.htmlparsingexampleapp.classes.CourseManager;
+import com.pascalhow.htmlparsingexampleapp.model.Unit;
 
+import java.util.List;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by pascal on 25/12/2016.
@@ -20,7 +34,18 @@ import butterknife.ButterKnife;
 
 public class UnitFragment extends Fragment {
 
-    private MainActivity mainActivity;
+    @BindView(R2.id.unit_list)
+    RecyclerView recyclerView;
+
+    @BindView(R2.id.unit_progressbar)
+    ProgressBar progressBar;
+
+    private UnitItemAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
+
+    private Subscription subscription;
+    private CourseManager courseManager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,12 +54,59 @@ public class UnitFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-        mainActivity = (MainActivity) getActivity();
-        mainActivity.setTitle(R.string.unit_fragment_title);
+        getActivity().setTitle(R.string.unit_fragment_title);
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mAdapter = new UnitItemAdapter(getContext());
+
+        courseManager = new CourseManager();
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        setUnitObservable();
 
         setHasOptionsMenu(true);
 
         return rootView;
+    }
+
+    public void setUnitObservable() {
+        this.subscription = courseManager.getUnitObservable().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getUnitSubscriber());
+    }
+
+    public Subscriber<List<Unit>> getUnitSubscriber() {
+        return new Subscriber<List<Unit>>() {
+
+            @Override
+            public void onCompleted() {
+                Timber.d("onCompleted");
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Timber.e("onError");
+            }
+
+            @Override
+            public void onNext(List<Unit> unitList) {
+                Timber.d("onNext");
+                mAdapter.setItemList(unitList);
+            }
+        };
+    }
+
+    @Override
+    public void onResume() {
+        getActivity().setTitle(R.string.unit_fragment_title);
+        super.onResume();
     }
 
     @Override
@@ -62,5 +134,14 @@ public class UnitFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (this.subscription != null) {
+            this.subscription.unsubscribe();
+        }
     }
 }

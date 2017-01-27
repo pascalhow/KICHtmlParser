@@ -33,6 +33,6 @@
     <!-- Units Screen -->
     <dimen name="unit_screen_content_text_size">@dimen/text_size_small</dimen>
 
-    <!-- Criteria Screen -->
+    <!-- PerformanceCriteria Screen -->
     <dimen name="criteria_screen_content_text_size">@dimen/text_size_small</dimen>
 </resources>

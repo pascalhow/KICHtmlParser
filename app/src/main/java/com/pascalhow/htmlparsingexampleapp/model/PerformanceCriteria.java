@@ -1,6 +1,7 @@
 package com.pascalhow.htmlparsingexampleapp.model;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by pascal on 03/01/2017.
@@ -8,33 +9,67 @@ import java.util.ArrayList;
 
 public class PerformanceCriteria {
 
-    private final ArrayList<Criteria> criteria;
+    private String element;
+    private List<String> performanceList;
 
     public static class Builder {
 
-        private ArrayList<Criteria> criteria = new ArrayList<>();
+        private String element = "";
+        private List<String> performanceList;
 
-        public Builder addCriteria(Criteria criteria) {
-            this.criteria.add(criteria);
+        public Builder setElement(String element) {
+            this.element = element;
             return this;
         }
 
+        public Builder setPerformanceList(List<String> performanceList) {
+            this.performanceList = performanceList;
+            return  this;
+        }
+
         public PerformanceCriteria build() {
-            return new PerformanceCriteria(this);
+            return new PerformanceCriteria(this.element, this.performanceList);
         }
     }
 
-    private PerformanceCriteria(Builder builder) {
-        this.criteria = builder.criteria;
+    private PerformanceCriteria(String element, List<String> performances) {
+        this.element = element;
+        this.performanceList = performances;
+    }
+
+    public String getElement() {
+        return this.element;
+    }
+
+    public List<String> getPerformanceList() {
+
+        return (!this.performanceList.isEmpty()) ? this.performanceList : Collections.emptyList();
+    }
+
+    public String getPerformanceListString() {
+        if (!performanceList.isEmpty() || performanceList != null) {
+            StringBuilder sb = new StringBuilder();
+
+            for (String s : performanceList) {
+                sb.append(s + "\n");
+            }
+            return sb.toString().substring(0, sb.toString().length() - 1);
+        } else {
+            return "";
+        }
     }
 
     @Override
     public String toString() {
-        String performanceCriteriaToString = "----- Performance criteria -----\n";
-        for (Criteria crit : criteria) {
-            performanceCriteriaToString += crit.getElement();
-            performanceCriteriaToString +=  "\n";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("----- Performance criteriaList -----\n");
+        sb.append("Element: ");
+        sb.append(element + "\n");
+
+        for(String performances : performanceList) {
+            sb.append(performances + "\n");
         }
-        return performanceCriteriaToString;
+        return sb.toString();
     }
 }

@@ -10,18 +10,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.pascalhow.htmlparsingexampleapp.course.CourseFragment;
+import com.pascalhow.htmlparsingexampleapp.criteria.PerformanceCriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
+
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String FRAGMENT_COURSE = "course";
-    public static final String FRAGMENT_UNIT = "unit";
-    public static final String FRAGMENT_CRITERIA = "criteria";
+    public static final int FRAGMENT_COURSE = 0;
+    public static final int FRAGMENT_UNIT = 1;
+    public static final int FRAGMENT_PERFORMANCE_CRITERIA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Timber.plant(new Timber.DebugTree());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Handle screen display when navigating between fragment
+     *
      * @param fragment The current fragment
      */
     private void updateFragmentTitle(Fragment fragment) {
@@ -43,15 +49,18 @@ public class MainActivity extends AppCompatActivity {
             setTitle(getResources().getString(R.string.course_fragment_title));
         } else if (fragClassName.equals(UnitFragment.class.getName())) {
             setTitle(getResources().getString(R.string.unit_fragment_title));
+        } else if (fragClassName.equals(PerformanceCriteriaFragment.class.getName())) {
+            setTitle(getResources().getString(R.string.performance_criteria_fragment_title));
         }
     }
 
     /**
      * Replaces or adds a new fragment on top of the current fragment
+     *
      * @param fragment The new fragment
-     * @param tag A tag relating to the new fragment
+     * @param tag      A tag relating to the new fragment
      */
-    public void loadFragment(android.support.v4.app.Fragment fragment, String tag) {
+    public void loadFragment(Fragment fragment, int tag) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -59,20 +68,20 @@ public class MainActivity extends AppCompatActivity {
 
             case FRAGMENT_COURSE:
                 fragmentManager.beginTransaction()
-                        .replace(R.id.base_fragment, fragment, tag)
+                        .replace(R.id.base_fragment, fragment, getClass().getSimpleName())
                         .commit();
                 break;
 
             case FRAGMENT_UNIT:
                 fragmentManager.beginTransaction()
-                        .add(R.id.base_fragment, fragment, tag)
-                        .addToBackStack(FRAGMENT_UNIT)
+                        .add(R.id.base_fragment, fragment, getClass().getSimpleName())
+                        .addToBackStack(getClass().getSimpleName())
                         .commitAllowingStateLoss();
 
-            case FRAGMENT_CRITERIA:
+            case FRAGMENT_PERFORMANCE_CRITERIA:
                 fragmentManager.beginTransaction()
-                        .add(R.id.base_fragment, fragment, tag)
-                        .addToBackStack(FRAGMENT_CRITERIA)
+                        .add(R.id.base_fragment, fragment, getClass().getSimpleName())
+                        .addToBackStack(getClass().getSimpleName())
                         .commitAllowingStateLoss();
             default:
                 break;

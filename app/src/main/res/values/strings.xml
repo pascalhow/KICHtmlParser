@@ -3,9 +3,9 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="course_fragment_title">Course Fragment</string>
-    <string name="unit_fragment_title">Unit Fragment</string>
-    <string name="criteria_fragment_title">Criteria Fragment</string>
+    <string name="course_fragment_title">Courses</string>
+    <string name="unit_fragment_title">Units</string>
+    <string name="performance_criteria_fragment_title">Performance Criteria</string>
 
     <!-- Course Screen -->
     <string name="course_screen_course_list">Course List</string>
@@ -14,8 +14,11 @@
     <string name="course_screen_course_item_title">Course Title</string>
 
     <!-- Unit Screen -->
-    <string name="hello_new_fragment">Hello new fragment</string>
+    <string name="unit_screen_unit_list">Course List</string>
+    <string name="unit_screen_unit_item_code">Unit Code</string>
+    <string name="unit_screen_unit_item_title">Unit Title</string>
 
-    <!-- Criteria Screen -->
-    <string name="hello_criteria_fragment">Hello criteria fragment</string>
+    <!-- Performance Criteria Screen -->
+    <string name="performance_criteria_screen_criteria_name">Criteria Name</string>
+    <string name="performance_criteria_screen_performances">Performances</string>
 </resources>

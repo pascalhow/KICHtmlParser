@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/frame_layout_margin"
+    android:background="@android:color/white"
     android:orientation="vertical"
+    android:scrollbars="none"
     tools:context="com.pascalhow.htmlparsingexampleapp.course.CourseFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
@@ -20,16 +21,15 @@
                 android:id="@+id/load_course_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/text_margin_vertical_small"
                 android:text="@string/course_screen_load_button_text" />
 
             <ProgressBar
                 android:id="@+id/course_progressbar"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:indeterminate="true" />
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:indeterminate="true"
+                android:visibility="gone" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:scrollbars="vertical" />
+            android:scrollbars="none" />
     </LinearLayout>
 
 </ScrollView>

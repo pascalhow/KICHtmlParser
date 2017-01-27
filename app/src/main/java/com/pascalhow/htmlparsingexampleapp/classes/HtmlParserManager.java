@@ -1,9 +1,6 @@
 package com.pascalhow.htmlparsingexampleapp.classes;
 
-import android.util.Log;
-
 import com.pascalhow.htmlparsingexampleapp.model.Course;
-import com.pascalhow.htmlparsingexampleapp.model.Criteria;
 import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
 import com.pascalhow.htmlparsingexampleapp.model.Unit;
 import com.pascalhow.htmlparsingexampleapp.utils.StringHelper;
@@ -15,6 +12,10 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by pascal on 03/01/2017.
@@ -34,10 +35,9 @@ public class HtmlParserManager {
             Elements paragraphs = doc.select(table + " tbody tr");
 
             return buildCourseList(paragraphs);
-        }
-        catch(IOException error) {
+        } catch (IOException error) {
             // If it fails it would throw an error and return an empty array
-            Log.d(TAG, "failed to scan page");
+            Timber.d("failed to scan page");
             return new ArrayList<>();
         }
     }
@@ -77,10 +77,9 @@ public class HtmlParserManager {
             Elements paragraphs = doc.select(table + " tbody tr");
 
             return buildUnitList(paragraphs);
-        }
-        catch(IOException error) {
+        } catch (IOException error) {
             // If it fails it would throw an error and return an empty array
-            Log.d(TAG, "failed to scan page");
+            Timber.d("failed to scan page");
             return new ArrayList<>();
         }
     }
@@ -110,14 +109,15 @@ public class HtmlParserManager {
         return unitList;
     }
 
-    public static ArrayList<PerformanceCriteria> scanPageForPerformanceCriteria(String url) {
+    public static List<PerformanceCriteria> scanPageForPerformanceCriteria(String url) {
         try {
             Document doc = Jsoup.connect(url)
                     .userAgent("Chrome")
                     .get();
 
             Elements tables = doc.select(".ait-table tbody");
-            ArrayList<PerformanceCriteria> criteriasList = new ArrayList<PerformanceCriteria>();
+
+            List<PerformanceCriteria> performanceCriteriaList = new ArrayList<>();
 
             for (Element table : tables) {
                 // iterating through each table to find the performance criteria table.
@@ -130,65 +130,90 @@ public class HtmlParserManager {
                 // Remove everything except for alphabets. It has a space, that needs to be removed, to compare the words
                 String firstColString = firstCol.text().replaceAll("[^A-Za-z]+", "");
                 // Get the content of the first column, if it matches element, means it the correct table
-                if(firstColString.equalsIgnoreCase("element")) {
+                if (firstColString.equalsIgnoreCase("element")) {
                     // Get the second column in the row
                     String secondColString = rows.child(1).text().replaceAll("[^A-Za-z]+", "");
-                    if(secondColString.equalsIgnoreCase("PERFORMANCECRITERIA")) {
-                        criteriasList = buildPerformanceCriteriaList(table);
+                    if (secondColString.equalsIgnoreCase("PERFORMANCECRITERIA")) {
+                        performanceCriteriaList = buildPerformanceCriteriaList(table);
                     }
                     break;
                 }
 
             }
+            return performanceCriteriaList;
+        } catch (IOException error) {
 
-
-
-            return criteriasList;
-        }
-        catch(IOException error) {
-            Log.d(TAG, "failed to scan page");
-            return new ArrayList<>();
+            Timber.d("failed to scan page");
+            return Collections.emptyList();
         }
     }
 
-    private static ArrayList<PerformanceCriteria> buildPerformanceCriteriaList(Element table) {
+    private static List<PerformanceCriteria> buildPerformanceCriteriaList(Element table) {
 
-        ArrayList<PerformanceCriteria> elementsCrtieriasList = new ArrayList<>();
+        List<PerformanceCriteria> performanceCriteriaList = new ArrayList<>();
 
         Elements rows = table.children();
-        for (int i = 1; i < rows.size(); i ++) {
+        for (int i = 1; i < rows.size(); i++) {
 
             Elements secondColumnArray = rows.get(i).child(1).children();
-            ArrayList<String> performances = new ArrayList<>();
-            for (Element item: secondColumnArray) {
+            List<String> performances = new ArrayList<>();
+
+            for (Element item : secondColumnArray) {
                 performances.add(item.text());
             }
-            Criteria criteria = new Criteria(rows.get(i).child(0).text(), performances);
 
-            PerformanceCriteria performanceCriteria = new PerformanceCriteria.Builder()
-                    .addCriteria(criteria)
+            PerformanceCriteria performanceCriteria = new PerformanceCriteria.Builder().setElement(rows.get(i).child(0).text())
+                    .setPerformanceList(performances)
                     .build();
 
-            Log.d(TAG, criteria.toString());
-
-            if (isValid(criteria)){
-                elementsCrtieriasList.add(performanceCriteria);
+            if (isValid(performanceCriteria)) {
+                performanceCriteriaList.add(performanceCriteria);
+                Timber.d(performanceCriteria.toString());
             }
         }
 
-        return elementsCrtieriasList;
+        return performanceCriteriaList;
+
+//        ArrayList<PerformanceCriteria> elementsCriteriaList = new ArrayList<>();
+//
+//        Elements rows = table.children();
+//        for (int i = 1; i < rows.size(); i ++) {
+//
+//            Elements secondColumnArray = rows.get(i).child(1).children();
+//            ArrayList<String> performances = new ArrayList<>();
+//            for (Element item: secondColumnArray) {
+//                performances.add(item.text());
+//            }
+//
+//            PerformanceCriteria criteria = new PerformanceCriteria.Builder().setElement(rows.get(i).child(0).text())
+//                    .setPerformanceList(performances)
+//                    .build();
+//
+//            PerformanceCriteria performanceCriteria = new PerformanceCriteria.Builder()
+//                    .setCriteriaList(criteria)
+//                    .build();
+//
+//            Timber.d(criteria.toString());
+//
+//            if (isValid(criteria)){
+//                elementsCriteriaList.add(performanceCriteria);
+//            }
+//        }
+//
+//        return elementsCriteriaList;
     }
 
     /**
-     * If criteria does not contain not null or empty string
+     * If performanceCriteria does not contain not null or empty string
      * Then check if first character of element can be converted to integer
-     * @param criteria Criteria item from performance and criteria table
-     * @return true if criteria is valid
+     *
+     * @param performanceCriteria PerformanceCriteria item from performance and performanceCriteria table
+     * @return true if performanceCriteria is valid
      */
-    private static boolean isValid(Criteria criteria) {
+    private static boolean isValid(PerformanceCriteria performanceCriteria) {
 
-        if (!StringHelper.isNullOrEmpty(criteria.getElement()) || !StringHelper.isNullOrEmpty(criteria.getPerformances().get(0))) {
-            if (StringHelper.isInteger(criteria.getElement().substring(0, 1))) {
+        if (!StringHelper.isNullOrEmpty(performanceCriteria.getElement()) || !StringHelper.isNullOrEmpty(performanceCriteria.getPerformanceList().get(0))) {
+            if (StringHelper.isInteger(performanceCriteria.getElement().substring(0, 1))) {
                 return true;
             }
         }

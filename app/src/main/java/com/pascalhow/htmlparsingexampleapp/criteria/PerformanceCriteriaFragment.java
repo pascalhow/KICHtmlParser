@@ -1,5 +1,4 @@
-package com.pascalhow.htmlparsingexampleapp.course;
-
+package com.pascalhow.htmlparsingexampleapp.criteria;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,17 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.pascalhow.htmlparsingexampleapp.MainActivity;
 import com.pascalhow.htmlparsingexampleapp.R;
 import com.pascalhow.htmlparsingexampleapp.R2;
-import com.pascalhow.htmlparsingexampleapp.adapter.CourseItemAdapter;
+import com.pascalhow.htmlparsingexampleapp.adapter.PerformanceCriteriaItemAdapter;
 import com.pascalhow.htmlparsingexampleapp.classes.CourseManager;
-import com.pascalhow.htmlparsingexampleapp.model.Course;
+import com.pascalhow.htmlparsingexampleapp.model.PerformanceCriteria;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,68 +30,67 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by pascal on 25/12/2016.
+ * Created by pascal on 12/01/2017.
  */
-public class CourseFragment extends Fragment {
 
-    @BindView(R2.id.course_list)
-    RecyclerView recyclerView;
+public class PerformanceCriteriaFragment extends Fragment {
 
-    @BindView(R2.id.course_progressbar)
+    @BindView(R2.id.performance_criteria_progressbar)
     ProgressBar progressBar;
 
-    private CourseItemAdapter mAdapter;
+    @BindView(R2.id.performance_criteria_list)
+    RecyclerView recyclerView;
+
+    private PerformanceCriteriaItemAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
     private Subscription subscription;
-    private CourseManager courseManager = new CourseManager();
+    private CourseManager courseManager;
 
+    private MainActivity mainActivity;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_course, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_performance_criteria, container, false);
 
         ButterKnife.bind(this, rootView);
 
-        getActivity().setTitle(R.string.course_fragment_title);
+        mainActivity = (MainActivity) getActivity();
+        getActivity().setTitle(R.string.performance_criteria_fragment_title);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
-        mAdapter = new CourseItemAdapter(getContext());
+        mAdapter = new PerformanceCriteriaItemAdapter(getContext());
+
+        courseManager = new CourseManager();
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(mLayoutManager);
 
+        setCriteriaObservable();
 
         setHasOptionsMenu(true);
 
         return rootView;
     }
 
-    @OnClick(R2.id.load_course_btn)
-    public void onLoadButtonClick() {
-
-        progressBar.setVisibility(View.VISIBLE);
-
-        subscription = courseManager.getCourseObservable()
-                .subscribeOn(Schedulers.io())
+    public void setCriteriaObservable() {
+        this.subscription = courseManager.getCriteriaObservable().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(getCourseSubscriber());
+                .subscribe(getPerformanceCriteriaSubscriber());
     }
 
-    @Override
-    public void onResume() {
-        getActivity().setTitle(R.string.course_fragment_title);
-        super.onResume();
-    }
-
-    public Subscriber<List<Course>> getCourseSubscriber() {
-        return new Subscriber<List<Course>>() {
+    public Subscriber<List<PerformanceCriteria>> getPerformanceCriteriaSubscriber() {
+        return new Subscriber<List<PerformanceCriteria>>() {
 
             @Override
             public void onCompleted() {
                 Timber.d("onCompleted");
+                progressBar.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
             }
 
@@ -102,9 +100,9 @@ public class CourseFragment extends Fragment {
             }
 
             @Override
-            public void onNext(List<Course> courseList) {
+            public void onNext(List<PerformanceCriteria> performanceCriteriaList) {
                 Timber.d("onNext");
-                mAdapter.setItemList(courseList);
+                mAdapter.setItemList(performanceCriteriaList);
             }
         };
     }
@@ -112,7 +110,7 @@ public class CourseFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         MenuItem item = menu.findItem(R.id.action_settings);
-        item.setVisible(false);
+        item.setVisible(true);
     }
 
     @Override
@@ -120,6 +118,12 @@ public class CourseFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_main, menu);
+    }
+
+    @Override
+    public void onResume() {
+        mainActivity.setTitle(R.string.performance_criteria_fragment_title);
+        super.onResume();
     }
 
     @Override
@@ -145,3 +149,4 @@ public class CourseFragment extends Fragment {
         }
     }
 }
+
