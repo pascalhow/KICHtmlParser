@@ -5,11 +5,13 @@ import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 import java.util.Collections;
 import java.util.List;
 
+import io.realm.RealmObject;
+
 /**
  * Created by pascal on 02/01/2017.
  */
 
-public class Course {
+public class Course extends RealmObject {
 
     private final String code;
     private final String title;
