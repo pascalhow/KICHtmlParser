@@ -71,19 +71,19 @@ public class CourseManager {
         // Scan first page to get qualifications
         String url = Constants.COURSE_URL;
         courseList = HtmlParserManager.scanPageForCourses(url, "#resultsBodyQualification");
-        unitList = HtmlParserManager.scanPageForUnits(courseList.get(0).getLink(), "#tableUnits");
-        performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unitList.get(0).getLink());
-//        for(Course course : courseList) {
-//
-//            // iterate through list to get the second pages,which list the units
-//            unitList = HtmlParserManager.scanPageForUnits(course.getLink(),"#tableUnits");
-//
-//            for(Unit unit : unitList) {
-//                // The last page where it displays the performance and criteria pages
-//                ArrayList<PerformanceCriteria> performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unit.getLink());
-//                Log.d(TAG, performanceCriteriaList.toString());
-//            }
-//        }
+//        unitList = HtmlParserManager.scanPageForUnits(courseList.get(0).getLink(), "#tableUnits");
+//        performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unitList.get(0).getLink());
+
+        for (int i = 0; i < courseList.size(); i++) {
+            unitList = HtmlParserManager.scanPageForUnits(courseList.get(i).getLink(), "#tableUnits");
+
+            for (int j = 0; j < unitList.size(); j++) {
+                performanceCriteriaList = HtmlParserManager.scanPageForPerformanceCriteria(unitList.get(j).getLink());
+                unitList.get(j).addPerformanceCriteriaList(performanceCriteriaList);
+            }
+
+            courseList.get(i).addUnitList(unitList);
+        }
     }
 
     /**
