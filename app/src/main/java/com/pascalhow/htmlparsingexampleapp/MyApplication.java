@@ -3,6 +3,8 @@ package com.pascalhow.htmlparsingexampleapp;
 import android.app.Application;
 import android.content.Context;
 
+import com.pascalhow.htmlparsingexampleapp.classes.MyMigration;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import timber.log.Timber;
@@ -28,7 +30,12 @@ public class MyApplication extends Application {
 
         // Configure Realm for the application
         Realm.init(getApplicationContext());
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("ExampleAppRealm.realm").build();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .name("ExampleAppRealm.realm")
+                .schemaVersion(1) // Must be bumped when the schema changes
+                .migration(new MyMigration()) // Migration to run instead of throwing an exception.build();
+                .build();
+
         Realm.setDefaultConfiguration(realmConfiguration);
     }
 

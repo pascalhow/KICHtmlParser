@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.pascalhow.htmlparsingexampleapp.course.CourseFragment;
 import com.pascalhow.htmlparsingexampleapp.criteria.PerformanceCriteriaFragment;
+import com.pascalhow.htmlparsingexampleapp.dog.DogFragment;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FRAGMENT_COURSE = 0;
     public static final int FRAGMENT_UNIT = 1;
     public static final int FRAGMENT_PERFORMANCE_CRITERIA = 2;
+    public static final int FRAGMENT_DOGS = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         setOnBackStackListener();
 
-        loadFragment(new CourseFragment(), FRAGMENT_COURSE);
-
+//        loadFragment(new CourseFragment(), FRAGMENT_COURSE);
+        loadFragment(new DogFragment(), FRAGMENT_DOGS);
     }
 
     /**
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             setTitle(getResources().getString(R.string.unit_fragment_title));
         } else if (fragClassName.equals(PerformanceCriteriaFragment.class.getName())) {
             setTitle(getResources().getString(R.string.performance_criteria_fragment_title));
+        } else if (fragClassName.equals(DogFragment.class.getName())) {
+            setTitle("Dogz");
         }
     }
 
@@ -75,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
                         .commitAllowingStateLoss();
 
             case FRAGMENT_PERFORMANCE_CRITERIA:
+                fragmentManager.beginTransaction()
+                        .add(R.id.base_fragment, fragment, getClass().getSimpleName())
+                        .addToBackStack(getClass().getSimpleName())
+                        .commitAllowingStateLoss();
+
+            case FRAGMENT_DOGS:
                 fragmentManager.beginTransaction()
                         .add(R.id.base_fragment, fragment, getClass().getSimpleName())
                         .addToBackStack(getClass().getSimpleName())
