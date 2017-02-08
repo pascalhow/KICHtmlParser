@@ -5,13 +5,11 @@ import com.pascalhow.htmlparsingexampleapp.utils.Constants;
 import java.util.Collections;
 import java.util.List;
 
-import io.realm.RealmObject;
-
 /**
  * Created by pascal on 02/01/2017.
  */
 
-public class Course extends RealmObject {
+public class Course {
 
     private final String code;
     private final String title;
@@ -74,7 +72,6 @@ public class Course extends RealmObject {
     public List<Unit> getUnitList() {
         return (this.unitList.isEmpty() ? Collections.emptyList() : this.unitList);
     }
-
 
     public void addUnitList(List<Unit> unitList) {
         this.unitList = unitList;

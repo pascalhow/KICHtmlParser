@@ -13,8 +13,6 @@ import com.pascalhow.htmlparsingexampleapp.course.CourseFragment;
 import com.pascalhow.htmlparsingexampleapp.criteria.PerformanceCriteriaFragment;
 import com.pascalhow.htmlparsingexampleapp.unit.UnitFragment;
 
-import timber.log.Timber;
-
 public class MainActivity extends AppCompatActivity {
 
     public static final int FRAGMENT_COURSE = 0;
@@ -25,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Timber.plant(new Timber.DebugTree());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
